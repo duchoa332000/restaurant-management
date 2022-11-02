@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.example.exception.ExceptionsMenuNotFound;
 import com.example.model.dto.BillDTO;
 import com.example.model.mapper.BillMapper;
 import com.example.repository.BillRepository;
@@ -35,9 +36,14 @@ public class BillServiceImpl implements BillService {
      * @return
      */
     @Override
-    public Optional<BillDTO> findById(Integer id) {
-        return billRepository.findById(id);
+    public Optional<BillDTO> findById(Integer id) throws ExceptionsMenuNotFound {
+        Optional<BillDTO> findById = billRepository.findById(id);
+        if (!findById.isPresent()) {
+            throw new ExceptionsMenuNotFound(String.format("Bill not found with id %s", id));
+        }
+        return Optional.of(findById.get());
     }
+
 
     /**
      * This class is to handle business Save
@@ -56,8 +62,12 @@ public class BillServiceImpl implements BillService {
      * @param id
      */
     @Override
-    public void deleteById(Integer id) {
-        billRepository.deleteById(id);
+    public void deleteById(Integer id) throws ExceptionsMenuNotFound {
+        Optional<BillDTO> findById = billRepository.findById(id);
+        BillDTO billDTO = findById
+                .orElseThrow(() -> new ExceptionsMenuNotFound(String.format("Bill not found with id %s", id)));
+        billRepository.delete(billDTO);
+
     }
 
     /**
@@ -67,7 +77,11 @@ public class BillServiceImpl implements BillService {
      * @return
      */
     @Override
-    public BillDTO update(BillDTO billDTO) {
+    public BillDTO update(BillDTO billDTO) throws ExceptionsMenuNotFound {
+        Optional<BillDTO> findById = billRepository.findById(billDTO.getId());
+        if (!findById.isPresent()) {
+            throw new ExceptionsMenuNotFound(String.format("Menu not found with id %s", billDTO.getId()));
+        }
         BillDTO[] billDTOS = new BillDTO[0];
         for (BillDTO updateBill : billDTOS) {
             if (updateBill.getId() == billDTO.getId()) {

@@ -15,6 +15,7 @@ public class Bill {
     private String menuItems;
     private int quantity;
     private String orderTime;
+    ///localTime
     private String orderDate;
 
 }

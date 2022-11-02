@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.exception.ExceptionsMenuNotFound;
 import com.example.model.dto.MenuDTO;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface MenuService {
      *
      * @param id
      */
-    void deleteById(Long id);
+    void deleteById(Long id) throws ExceptionsMenuNotFound;
 
     /**
      * Find by id menus
@@ -29,7 +30,7 @@ public interface MenuService {
      * @param id
      * @return
      */
-    Optional<MenuDTO> findById(Long id);
+    Optional<MenuDTO> findById(Long id) throws ExceptionsMenuNotFound;
 
     /**
      * Save menus
@@ -37,7 +38,7 @@ public interface MenuService {
      * @param
      * @return
      */
-    MenuDTO save(MenuDTO menuDTO);
+    MenuDTO save(MenuDTO menuDTO) throws ExceptionsMenuNotFound;
 
     /**
      * Update menus
@@ -45,7 +46,7 @@ public interface MenuService {
      * @param menuDTO
      * @return
      */
-    MenuDTO update(MenuDTO menuDTO);
+    MenuDTO update(MenuDTO menuDTO) throws ExceptionsMenuNotFound;
 
     /**
      * Search menus

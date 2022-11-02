@@ -3,24 +3,32 @@ package com.example.model.dto;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "menumanagement")
-public class MenuDTO {
+public class MenuDTO implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(name = "name")
+    @NotBlank(message = "Menu name cannot be blank")
     private String name;
     @Column(name = "description")
+    @NotBlank(message = "description shouldn't be null")
     private String description;
     @Column(name = "image")
+    @NotBlank(message = "insert an image")
     private String image;
     @Column(name = "price")
+    @NotBlank(message = "price shouldn't be null")
     private int price;
     @Column(name = "note")
+    @NotBlank(message = "note shouldn't be null")
     private String note;
 
     public MenuDTO(String name, String description, String image, int price, String note) {
