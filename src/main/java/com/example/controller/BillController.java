@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.exception.ExceptionsMenuNotFound;
 import com.example.model.dto.BillDTO;
 import com.example.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,11 @@ public class BillController {
      * @return
      */
     @GetMapping("/find/{id}")
-    public Optional<BillDTO> findById(@PathVariable("id") Integer id) {
-        return billService.findById(id);
+    public ResponseEntity<Optional<BillDTO>> getBill(@PathVariable("id") Integer id) throws ExceptionsMenuNotFound {
+        Optional<BillDTO> findById = billService.findById(id);
+        return ResponseEntity.ok(findById);
     }
+
 
     /**
      * Add a new bill
@@ -55,10 +58,9 @@ public class BillController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<BillDTO> delete(@PathVariable("id") Integer id) throws ExceptionsMenuNotFound {
         billService.deleteById(id);
-        return "Bill deleted successfully!";
-
+        return ResponseEntity.noContent().build();
     }
 
     /**
@@ -68,10 +70,11 @@ public class BillController {
      * @return
      */
     @PutMapping("/update/{id}")
-    public BillDTO update(@RequestBody BillDTO billDTO) {
+    public ResponseEntity<BillDTO> update(@RequestBody BillDTO billDTO) throws ExceptionsMenuNotFound {
         BillDTO billDTOS = billService.update(billDTO);
-        return billDTOS;
+        return ResponseEntity.ok(billDTOS);
     }
+
 
     /**
      * Search bills
