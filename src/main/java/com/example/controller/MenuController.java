@@ -1,9 +1,11 @@
 package com.example.controller;
 
+import com.example.exception.ExceptionsMenuNotFound;
 import com.example.model.dto.MenuDTO;
 import com.example.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +42,9 @@ public class MenuController {
      * @return
      */
     @GetMapping("/find/{id}")
-    public Optional<MenuDTO> findById(@PathVariable("id") Long id) {
-        return menuService.findById(id);
+    public ResponseEntity<Optional<MenuDTO>> getMenu(@PathVariable("id") Long id) throws ExceptionsMenuNotFound {
+        Optional<MenuDTO> findById = menuService.findById(id);
+        return ResponseEntity.ok(findById);
     }
 
     /**
@@ -51,8 +54,9 @@ public class MenuController {
      * @return
      */
     @PostMapping("/addmenu")
-    public MenuDTO add(@Valid @RequestBody MenuDTO menuDTO) {
-        return menuService.save(menuDTO);
+    public ResponseEntity<MenuDTO> add(@Valid @RequestBody MenuDTO menuDTO) throws ExceptionsMenuNotFound {
+        MenuDTO saveMenus = menuService.save(menuDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saveMenus);
     }
 
     /**
@@ -62,9 +66,9 @@ public class MenuController {
      * @return
      */
     @PutMapping("/update/{id}")
-    public MenuDTO update(@RequestBody MenuDTO menuDTO) {
+    public ResponseEntity<MenuDTO> update(@RequestBody MenuDTO menuDTO) throws ExceptionsMenuNotFound {
         MenuDTO menuDTOS = menuService.update(menuDTO);
-        return menuDTOS;
+        return ResponseEntity.ok(menuDTOS);
     }
 
     /**
@@ -74,9 +78,9 @@ public class MenuController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public ResponseEntity<MenuDTO> delete(@PathVariable("id") Long id) throws ExceptionsMenuNotFound {
         menuService.deleteById(id);
-        return "Menu deleted successfully!";
+        return ResponseEntity.noContent().build();
     }
 
     /**
