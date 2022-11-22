@@ -7,7 +7,6 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MenuDTO {
     private Long menuId;
     private String name;
@@ -15,10 +14,5 @@ public class MenuDTO {
     private String image;
     private int price;
     private String note;
-
-
-//    public MenuDTO() {
-//    }
-
-
+    
 }

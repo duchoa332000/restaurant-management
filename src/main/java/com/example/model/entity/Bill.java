@@ -34,46 +34,5 @@ public class Bill {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "local_datetime")
     private LocalDateTime localDateTime = LocalDateTime.now();
-
-//    public Bill(Long billId, Set<Menu> menuItem, int quantity, float totalPrice, LocalDateTime localDateTime) {
-//        this.billId = billId;
-//        this.menuItem = menuItem;
-//        this.quantity = quantity;
-//        this.totalPrice = totalPrice;
-//        this.localDateTime = localDateTime;
-//    }
-//
-//    public Long getBillId() {
-//        return billId;
-//    }
-//
-//    public void setBillId(Long billId) {
-//        this.billId = billId;
-//    }
-//
-//    public Set<Menu> getMenuItem() {
-//        return menuItem;
-//    }
-//
-//    public void setMenuItem(Set<Menu> menuItem) {
-//        this.menuItem = menuItem;
-//    }
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
-//
-//    public LocalDateTime getLocalDateTime() {
-//        return localDateTime;
-//    }
-//
-//    public void setLocalDateTime(LocalDateTime localDateTime) {
-//        this.localDateTime = localDateTime;
-//    }
-
-
+    
 }
