@@ -9,28 +9,27 @@ import java.util.stream.Collectors;
 
 @Component
 public class BillMapper {
-    public BillDTO entityToDTO(BillDTO bill) {
+    public BillDTO entityToDTO(Bill bill) {
         BillDTO billDTO = new BillDTO();
-        billDTO.setId(bill.getId());
-        billDTO.setMenuItems(bill.getMenuItems());
+        billDTO.setBillId(bill.getBillId());
         billDTO.setQuantity(bill.getQuantity());
-        billDTO.setOrderTime(bill.getOrderTime());
-        billDTO.setOrderDate(bill.getOrderDate());
+        billDTO.setLocalDateTime(bill.getLocalDateTime());
+        billDTO.setTotalPrice(bill.getTotalPrice());
+
 
         return billDTO;
     }
 
-    public List<BillDTO> entityToDTO(List<BillDTO> bill) {
+    public List<BillDTO> entityToDTO(List<Bill> bill) {
         return bill.stream().map(this::entityToDTO).collect(Collectors.toList());
     }
 
     public Bill dtoToEntity(BillDTO billDTO) {
         Bill bill = new Bill();
-        bill.setId(billDTO.getId());
-        bill.setMenuItems(billDTO.getMenuItems());
+        bill.setBillId(billDTO.getBillId());
         bill.setQuantity(billDTO.getQuantity());
-        bill.setOrderTime(billDTO.getOrderTime());
-        bill.setOrderDate(String.valueOf(billDTO.getOrderDate()));
+        bill.setLocalDateTime(billDTO.getLocalDateTime());
+        bill.setTotalPrice(bill.getTotalPrice());
         return bill;
     }
 

@@ -1,28 +1,32 @@
 package com.example.controller;
 
-import com.example.exception.ExceptionsMenuNotFound;
+import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.BillDTO;
+import com.example.model.entity.Bill;
 import com.example.service.BillService;
+import com.example.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * This class is to handle Bill Controller
  */
 @RestController
-@RequestMapping("bills")
+@RequestMapping("api.com/bills")
 public class BillController {
     @Autowired
     private BillService billService;
 
-    @GetMapping("/findAll")
+    @Autowired
+    private MenuService menuService;
+
+
+    @GetMapping
     public List<BillDTO> findAll() {
         return billService.findAll();
     }
@@ -30,15 +34,14 @@ public class BillController {
     /**
      * Find by Bill id
      *
-     * @param id
+     * @param billId
      * @return
      */
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Optional<BillDTO>> getBill(@PathVariable("id") Integer id) throws ExceptionsMenuNotFound {
-        Optional<BillDTO> findById = billService.findById(id);
+    @GetMapping("/{billId}")
+    public ResponseEntity<Bill> getBill(@PathVariable Long billId) throws ApplicationExceptionsNotFound {
+        Bill findById = billService.findById(billId);
         return ResponseEntity.ok(findById);
     }
-
 
     /**
      * Add a new bill
@@ -46,9 +49,10 @@ public class BillController {
      * @param
      * @return
      */
-    @PostMapping("/addbill")
-    public BillDTO add(@Valid @RequestBody BillDTO billDTO) {
-        return billService.save(billDTO);
+    @PostMapping
+    public ResponseEntity<Bill> add(@Valid @RequestBody Bill bill) throws ApplicationExceptionsNotFound {
+        Bill saveBills = billService.save(bill);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saveBills);
     }
 
     /**
@@ -57,9 +61,9 @@ public class BillController {
      * @param
      * @return
      */
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<BillDTO> delete(@PathVariable("id") Integer id) throws ExceptionsMenuNotFound {
-        billService.deleteById(id);
+    @DeleteMapping("/{billId}")
+    public ResponseEntity<Bill> delete(@PathVariable("billId") Long billId) throws ApplicationExceptionsNotFound {
+        billService.deleteById(billId);
         return ResponseEntity.noContent().build();
     }
 
@@ -69,11 +73,19 @@ public class BillController {
      * @param
      * @return
      */
-    @PutMapping("/update/{id}")
-    public ResponseEntity<BillDTO> update(@RequestBody BillDTO billDTO) throws ExceptionsMenuNotFound {
-        BillDTO billDTOS = billService.update(billDTO);
-        return ResponseEntity.ok(billDTOS);
+
+    @PutMapping("/{billId}/menu/{menuId}")
+    public Bill assignMenuToBill(
+            @PathVariable Long billId,
+            @PathVariable Long menuId) {
+        return billService.assignMenuToBill(billId, menuId);
     }
+
+//    @PutMapping
+//    public ResponseEntity<Bill> update(@RequestBody Bill bill) throws ApplicationExceptionsNotFound {
+//        Bill bills = billService.update(bill);
+//        return ResponseEntity.ok(bills);
+//    }
 
 
     /**
@@ -83,7 +95,7 @@ public class BillController {
      * @return
      */
     @GetMapping("/search")
-    public List<BillDTO> searchBills(@RequestParam("query") String query) {
+    public List<Bill> searchBills(@RequestParam("query") String query) {
         return billService.searchBills(query);
     }
 
@@ -92,14 +104,14 @@ public class BillController {
      *
      * @return
      */
-    @GetMapping("/billdto")
-    public ResponseEntity<List<BillDTO>> billDTOS() {
-        List<BillDTO> billDTOS = new ArrayList<>();
-        billDTOS.add(new BillDTO(1, "Sting", 2, "1:38:23", "20-10-2022"));
-        billDTOS.add(new BillDTO(2, "7 Up", 1, "1:38:25", "20-10-2022"));
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Reponsed", "BillController");
-        return ResponseEntity.accepted().headers(headers).body(billDTOS);
-
-    }
+//    @GetMapping("/billdto")
+//    public ResponseEntity<List<BillDTO>> billDTOS() {
+//        List<BillDTO> billDTOS = new ArrayList<>();
+//        billDTOS.add(new BillDTO("Sting", 2, null, "20-10-2022"));
+//        billDTOS.add(new BillDTO("7 Up", 1, null, "20-10-2022"));
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Reponsed", "BillController");
+//        return ResponseEntity.accepted().headers(headers).body(billDTOS);
+//
+//    }
 }

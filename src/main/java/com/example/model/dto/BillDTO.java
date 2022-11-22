@@ -1,83 +1,69 @@
 package com.example.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Data
-@Entity
-@Table(name = "billmanagement")
+@Getter
+@Setter
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BillDTO {
-    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private int id;
-    @Column(name = "menu_items")
-    private String menuItems;
-    @Column(name = "quantity")
+    private Long billId;
     private int quantity;
-    @JsonFormat(pattern = "HH:mm:ss")
-    @Column(name = "order_time")
-    private String orderTime;
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    @Column(name = "order_date")
-    private String orderDate;
+    private LocalDateTime localDateTime;
+    private float totalPrice;
 
-    public BillDTO(int id, String menuItems, int quantity, String orderTime, String orderDate) {
-        this.id = id;
-        this.menuItems = menuItems;
-        this.quantity = quantity;
-        this.orderTime = orderTime;
-        this.orderDate = orderDate;
-    }
+//    public BillDTO(Long billId, int quantity, LocalDateTime localDateTime, float totalPrice) {
+//        this.billId = billId;
+//        this.quantity = quantity;
+//        this.localDateTime = localDateTime;
+//        this.totalPrice = totalPrice;
+//    }
+//
+//    public BillDTO() {
+//
+//    }
 
-    public BillDTO() {
+//    public Long getBillId() {
+//        return billId;
+//    }
+//
+//    public void setBillId(Long billId) {
+//        this.billId = billId;
+//    }
 
-    }
+//    public String getMenuItems() {
+//        return menuItems;
+//    }
+//
+//    public void setMenuItems(String menuItems) {
+//        this.menuItems = menuItems;
+//    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getMenuItems() {
-        return menuItems;
-    }
-
-    public void setMenuItems(String menuItems) {
-        this.menuItems = menuItems;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public String getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
-    }
-
-
+//    public int getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(int quantity) {
+//        this.quantity = quantity;
+//    }
+//
+//    public LocalDateTime getLocalDateTime() {
+//        return localDateTime;
+//    }
+//
+//    public void setLocalDateTime(LocalDateTime localDateTime) {
+//        this.localDateTime = localDateTime;
+//    }
+//
+//    public float getTotalPrice() {
+//        return totalPrice;
+//    }
+//
+//    public void setTotalPrice(float totalPrice) {
+//        this.totalPrice = totalPrice;
+//    }
 }

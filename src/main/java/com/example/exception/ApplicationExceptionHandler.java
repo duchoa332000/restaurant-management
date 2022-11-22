@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class MenuExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(ExceptionsMenuNotFound.class)
-    public ResponseEntity<Object> exceptonMenuNotFoundResponse(Exception ex, WebRequest request) {
+public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(ApplicationExceptionsNotFound.class)
+    public ResponseEntity<Object> applicationNotFoundResponse(Exception ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), null);
         return handleExceptionInternal(ex, errorResponse, null, HttpStatus.NOT_FOUND, request);
     }

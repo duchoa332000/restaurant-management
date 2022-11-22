@@ -1,10 +1,10 @@
 package com.example.service;
 
-import com.example.exception.ExceptionsMenuNotFound;
+import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.BillDTO;
+import com.example.model.entity.Bill;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BillService {
     /**
@@ -17,33 +17,37 @@ public interface BillService {
     /**
      * Find by id bills
      *
-     * @param id
+     * @param billId
      * @return
      */
-    Optional<BillDTO> findById(Integer id) throws ExceptionsMenuNotFound;
+    Bill findById(Long billId) throws ApplicationExceptionsNotFound;
 
     /**
      * Save bills
      *
-     * @param billDTO
+     * @param
      * @return
      */
-    BillDTO save(BillDTO billDTO);
+    Bill save(Bill bill) throws ApplicationExceptionsNotFound;
 
     /**
      * Delete by id bills
      *
-     * @param id
+     * @param billId
      */
-    void deleteById(Integer id) throws ExceptionsMenuNotFound;
+    void deleteById(Long billId) throws ApplicationExceptionsNotFound;
+
+    Bill update(Bill bill) throws ApplicationExceptionsNotFound;
 
     /**
      * Update bills
      *
-     * @param billDTO
+     * @param
      * @return
      */
-    BillDTO update(BillDTO billDTO) throws ExceptionsMenuNotFound;
+    Bill assignMenuToBill(Long billId, Long menuId);
+
+//    List<Bill> findByBillId(Long billId);
 
     /**
      * Search bills
@@ -51,5 +55,5 @@ public interface BillService {
      * @param query
      * @return
      */
-    List<BillDTO> searchBills(String query);
+    List<Bill> searchBills(String query);
 }

@@ -1,16 +1,15 @@
 package com.example.controller;
 
-import com.example.exception.ExceptionsMenuNotFound;
+import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.MenuDTO;
+import com.example.model.entity.Menu;
 import com.example.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,7 @@ import java.util.Optional;
  * This class is to handle Menu Controller
  */
 @RestController
-@RequestMapping("api/menus")
+@RequestMapping("api.com/menus")
 public class MenuController {
 
     @Autowired
@@ -30,7 +29,7 @@ public class MenuController {
      *
      * @return
      */
-    @GetMapping("/findAll")
+    @GetMapping()
     public List<MenuDTO> findAll() {
         return menuService.findAll();
     }
@@ -38,12 +37,12 @@ public class MenuController {
     /**
      * Find by Menu id
      *
-     * @param id
+     * @param menuId
      * @return
      */
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Optional<MenuDTO>> getMenu(@PathVariable("id") Long id) throws ExceptionsMenuNotFound {
-        Optional<MenuDTO> findById = menuService.findById(id);
+    @GetMapping("/{menuId}")
+    public ResponseEntity<Optional<Menu>> getMenu(@PathVariable("menuId") Long menuId) throws ApplicationExceptionsNotFound {
+        Optional<Menu> findById = menuService.findById(menuId);
         return ResponseEntity.ok(findById);
     }
 
@@ -53,9 +52,9 @@ public class MenuController {
      * @param
      * @return
      */
-    @PostMapping("/addmenu")
-    public ResponseEntity<MenuDTO> add(@Valid @RequestBody MenuDTO menuDTO) throws ExceptionsMenuNotFound {
-        MenuDTO saveMenus = menuService.save(menuDTO);
+    @PostMapping
+    public ResponseEntity<Menu> add(@Valid @RequestBody Menu menu) throws ApplicationExceptionsNotFound {
+        Menu saveMenus = menuService.save(menu);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveMenus);
     }
 
@@ -65,10 +64,10 @@ public class MenuController {
      * @param
      * @return
      */
-    @PutMapping("/update/{id}")
-    public ResponseEntity<MenuDTO> update(@RequestBody MenuDTO menuDTO) throws ExceptionsMenuNotFound {
-        MenuDTO menuDTOS = menuService.update(menuDTO);
-        return ResponseEntity.ok(menuDTOS);
+    @PutMapping
+    public ResponseEntity<Menu> update(@RequestBody Menu menu) throws ApplicationExceptionsNotFound {
+        Menu menus = menuService.update(menu);
+        return ResponseEntity.ok(menus);
     }
 
     /**
@@ -77,8 +76,8 @@ public class MenuController {
      * @param
      * @return
      */
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<MenuDTO> delete(@PathVariable("id") Long id) throws ExceptionsMenuNotFound {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Menu> delete(@PathVariable("id") Long id) throws ApplicationExceptionsNotFound {
         menuService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -90,8 +89,8 @@ public class MenuController {
      * @return
      */
     @GetMapping("/search")
-    public List<MenuDTO> searchMenus(@RequestParam("query") String query) {
-        return menuService.searchMenus(query);
+    public ResponseEntity<List<Menu>> searchMenus(@RequestParam("query") String query) {
+        return ResponseEntity.ok(menuService.searchMenus(query));
     }
 
     /**
@@ -99,12 +98,12 @@ public class MenuController {
      *
      * @return
      */
-    @GetMapping("/menus")
-    public ResponseEntity<List<MenuDTO>> menuDTOS() {
-        List<MenuDTO> menuDTOS = new ArrayList<>();
-        menuDTOS.add(new MenuDTO("Sting", "Sting Cold", "sting.jpg", 20000, "sting"));
-        HttpHeaders headers = new HttpHeaders();
-        return ResponseEntity.accepted().headers(headers).body(menuDTOS);
-    }
+//    @GetMapping("/menu")
+//    public ResponseEntity<List<Menu>> menus() {
+//        List<Menu> menus = new ArrayList<>();
+//        menus.add(new Menu("Sting", "Sting Cold", "sting.jpg", 20000, "sting"));
+//        HttpHeaders headers = new HttpHeaders();
+//        return ResponseEntity.accepted().headers(headers).body(menus);
+//    }
 
 }

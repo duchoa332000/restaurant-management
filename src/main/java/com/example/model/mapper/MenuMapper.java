@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class MenuMapper {
-    public MenuDTO entityToDTO(MenuDTO menu) {
+    public MenuDTO entityToDTO(Menu menu) {
         MenuDTO menuDTO = new MenuDTO();
-        menuDTO.setId(menu.getId());
+        menuDTO.setMenuId(menu.getMenuId());
         menuDTO.setName(menu.getName());
         menuDTO.setDescription(menu.getDescription());
         menuDTO.setImage(menu.getImage());
@@ -20,23 +20,28 @@ public class MenuMapper {
         return menuDTO;
     }
 
-    public List<MenuDTO> entityToDTO(List<MenuDTO> menu) {
+    public List<MenuDTO> entityToDTO(List<Menu> menu) {
         return menu.stream().map(this::entityToDTO).collect(Collectors.toList());
     }
 
-    public Menu dtoToEntity(Menu menus) {
+
+//    public List<MenuDTO> entityToDTO(List<Menu> menu) {
+//        return menu.stream().map(x -> entityToDTO(x)).collect(Collectors.toList());
+//    }
+
+    public Menu dtoToEntity(MenuDTO menuDTO) {
         Menu menu = new Menu();
-        menu.setId(menus.getId());
-        menu.setName(menus.getName());
-        menu.setDescription(menus.getDescription());
-        menu.setImage(menus.getImage());
-        menu.setPrice(menus.getPrice());
-        menu.setNote(menus.getNote());
+        menu.setMenuId(menuDTO.getMenuId());
+        menu.setName(menuDTO.getName());
+        menu.setDescription(menuDTO.getDescription());
+        menu.setImage(menuDTO.getImage());
+        menu.setPrice(menuDTO.getPrice());
+        menu.setNote(menuDTO.getNote());
         return menu;
     }
 
-    public List<Menu> dtoToEntity(List<Menu> menuBillDTO) {
-        return menuBillDTO.stream().map(this::dtoToEntity).collect(Collectors.toList());
+    public List<Menu> dtoToEntity(List<MenuDTO> MenuDTO) {
+        return MenuDTO.stream().map(this::dtoToEntity).collect(Collectors.toList());
     }
 
 }

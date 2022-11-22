@@ -1,8 +1,9 @@
 package com.example.service.impl;
 
 
-import com.example.exception.ExceptionsMenuNotFound;
+import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.MenuDTO;
+import com.example.model.entity.Menu;
 import com.example.model.mapper.MenuMapper;
 import com.example.repository.MenuRepository;
 import com.example.service.MenuService;
@@ -31,8 +32,8 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<MenuDTO> findAll() {
-        List<MenuDTO> menuDTOS = menuRepository.findAll();
-        return menuMapper.entityToDTO(menuDTOS);
+        List<Menu> menu = menuRepository.findAll();
+        return menuMapper.entityToDTO(menu);
     }
 
     /**
@@ -42,8 +43,8 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public MenuDTO save(MenuDTO menuDTO) throws ExceptionsMenuNotFound {
-        MenuDTO saveMenu = menuRepository.save(menuDTO);
+    public Menu save(Menu menu) throws ApplicationExceptionsNotFound {
+        Menu saveMenu = menuRepository.save(menu);
         return saveMenu;
 
     }
@@ -51,26 +52,26 @@ public class MenuServiceImpl implements MenuService {
     /**
      * This class is to handle business DeleteId
      *
-     * @param id
+     * @param menuId
      */
     @Override
-    public void deleteById(Long id) throws ExceptionsMenuNotFound {
-        Optional<MenuDTO> findById = menuRepository.findById(id);
-        MenuDTO menuDTO = findById
-                .orElseThrow(() -> new ExceptionsMenuNotFound(String.format("Menu not found with id %s", id)));
-        menuRepository.delete(menuDTO);
+    public void deleteById(Long menuId) throws ApplicationExceptionsNotFound {
+        Optional<Menu> findById = menuRepository.findById(menuId);
+        Menu menu = findById.orElseThrow(() ->
+                new ApplicationExceptionsNotFound(String.format("Menu not found with id %s", menuId)));
+        menuRepository.delete(menu);
     }
 
     /**
      * This class is to handle business findById
      *
-     * @param id
+     * @param menuId
      * @return
      */
-    public Optional<MenuDTO> findById(Long id) throws ExceptionsMenuNotFound {
-        Optional<MenuDTO> findById = menuRepository.findById(id);
+    public Optional<Menu> findById(Long menuId) throws ApplicationExceptionsNotFound {
+        Optional<Menu> findById = menuRepository.findById(menuId);
         if (!findById.isPresent()) {
-            throw new ExceptionsMenuNotFound(String.format("Menu not found with id %s", id));
+            throw new ApplicationExceptionsNotFound(String.format("Menu not found with id %s", menuId));
         }
         return Optional.of(findById.get());
 
@@ -83,24 +84,24 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public MenuDTO update(MenuDTO menuDTO) throws ExceptionsMenuNotFound {
-        Optional<MenuDTO> findById = menuRepository.findById(menuDTO.getId());
+    public Menu update(Menu menu) throws ApplicationExceptionsNotFound {
+        Optional<Menu> findById = menuRepository.findById(menu.getMenuId());
         if (!findById.isPresent()) {
-            throw new ExceptionsMenuNotFound(String.format("Menu not found with id %s", menuDTO.getId()));
+            throw new ApplicationExceptionsNotFound(String.format("Menu not found with id %s", menu.getMenuId()));
         }
-        MenuDTO menuDTOS = findById.get();
-        BeanUtils.copyProperties(menuDTO, menuDTOS);
-        MenuDTO[] menus = new MenuDTO[0];
-        for (MenuDTO updateMenu : menus) {
-            if (updateMenu.getId() == menuDTO.getId()) {
-                updateMenu.setName(menuDTO.getName());
-                updateMenu.setDescription(menuDTO.getDescription());
-                updateMenu.setImage(menuDTO.getImage());
-                updateMenu.setPrice(menuDTO.getPrice());
-                updateMenu.setNote(menuDTO.getNote());
+        Menu menus = findById.get();
+        BeanUtils.copyProperties(menu, menu);
+        MenuDTO[] menuDTOS = new MenuDTO[0];
+        for (MenuDTO updateMenu : menuDTOS) {
+            if (updateMenu.getMenuId() == menu.getMenuId()) {
+                updateMenu.setName(menu.getName());
+                updateMenu.setDescription(menu.getDescription());
+                updateMenu.setImage(menu.getImage());
+                updateMenu.setPrice(menu.getPrice());
+                updateMenu.setNote(menu.getNote());
             }
         }
-        return menuRepository.save(menuDTO);
+        return menuRepository.save(menu);
     }
 
     /**
@@ -110,9 +111,9 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public List<MenuDTO> searchMenus(String query) {
-        List<MenuDTO> menuDTOS = menuRepository.searchMenus(query);
-        return menuDTOS;
+    public List<Menu> searchMenus(String query) {
+        List<Menu> menus = menuRepository.searchMenus(query);
+        return menus;
     }
 
 

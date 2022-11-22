@@ -1,22 +1,30 @@
 package com.example.service.impl;
 
-import com.example.exception.ExceptionsMenuNotFound;
+import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.BillDTO;
+import com.example.model.entity.Bill;
+import com.example.model.entity.Menu;
 import com.example.model.mapper.BillMapper;
 import com.example.repository.BillRepository;
+import com.example.repository.MenuRepository;
 import com.example.service.BillService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BillServiceImpl implements BillService {
     @Autowired
     private BillRepository billRepository;
     @Autowired
+    private MenuRepository menuRepository;
+    @Autowired
     private BillMapper billMapper;
+
 
     /**
      * Find all findAll
@@ -25,23 +33,23 @@ public class BillServiceImpl implements BillService {
      */
     @Override
     public List<BillDTO> findAll() {
-        List<BillDTO> billDTOS = billRepository.findAll();
-        return billMapper.entityToDTO(billDTOS);
+        List<Bill> bill = billRepository.findAll();
+        return billMapper.entityToDTO(bill);
     }
 
     /**
      * This class is to handle business findById
      *
-     * @param id
+     * @param billId
      * @return
      */
     @Override
-    public Optional<BillDTO> findById(Integer id) throws ExceptionsMenuNotFound {
-        Optional<BillDTO> findById = billRepository.findById(id);
+    public Bill findById(Long billId) throws ApplicationExceptionsNotFound {
+        Optional<Bill> findById = billRepository.findById(billId);
         if (!findById.isPresent()) {
-            throw new ExceptionsMenuNotFound(String.format("Bill not found with id %s", id));
+            throw new ApplicationExceptionsNotFound(String.format("Bill not found with id %s", billId));
         }
-        return Optional.of(findById.get());
+        return findById.get();
     }
 
 
@@ -52,21 +60,21 @@ public class BillServiceImpl implements BillService {
      * @return
      */
     @Override
-    public BillDTO save(BillDTO billDTO) {
-        return billRepository.save(billDTO);
+    public Bill save(Bill bill) {
+        return billRepository.save(bill);
     }
 
     /**
      * This class is to handle business DeleteId
      *
-     * @param id
+     * @param billId
      */
     @Override
-    public void deleteById(Integer id) throws ExceptionsMenuNotFound {
-        Optional<BillDTO> findById = billRepository.findById(id);
-        BillDTO billDTO = findById
-                .orElseThrow(() -> new ExceptionsMenuNotFound(String.format("Bill not found with id %s", id)));
-        billRepository.delete(billDTO);
+    public void deleteById(Long billId) throws ApplicationExceptionsNotFound {
+        Optional<Bill> findById = billRepository.findById(billId);
+        Bill bill = findById
+                .orElseThrow(() -> new ApplicationExceptionsNotFound(String.format("Bill not found with id %s", billId)));
+        billRepository.delete(bill);
 
     }
 
@@ -77,23 +85,38 @@ public class BillServiceImpl implements BillService {
      * @return
      */
     @Override
-    public BillDTO update(BillDTO billDTO) throws ExceptionsMenuNotFound {
-        Optional<BillDTO> findById = billRepository.findById(billDTO.getId());
+    public Bill update(Bill bill) throws ApplicationExceptionsNotFound {
+        Optional<Bill> findById = billRepository.findById(bill.getBillId());
         if (!findById.isPresent()) {
-            throw new ExceptionsMenuNotFound(String.format("Menu not found with id %s", billDTO.getId()));
+            throw new ApplicationExceptionsNotFound(String.format("Menu not found with id %s", bill.getBillId()));
         }
-        BillDTO[] billDTOS = new BillDTO[0];
-        for (BillDTO updateBill : billDTOS) {
-            if (updateBill.getId() == billDTO.getId()) {
-                updateBill.setMenuItems(billDTO.getMenuItems());
-                updateBill.setQuantity(billDTO.getQuantity());
-                updateBill.setOrderTime(billDTO.getOrderTime());
-                updateBill.setOrderDate(billDTO.getOrderDate());
-
+        BeanUtils.copyProperties(bill, bill);
+        Bill[] bills = new Bill[0];
+        for (Bill updateBill : bills) {
+            if (updateBill.getBillId() == bill.getBillId()) {
+                updateBill.setQuantity(bill.getQuantity());
             }
         }
-        return billRepository.save(billDTO);
+        return billRepository.save(bill);
     }
+
+    public Bill assignMenuToBill(Long billId, Long menuId) {
+        Set<Menu> menuSet = null;
+        Bill bill = billRepository.findById(billId).get();
+        Menu menu = menuRepository.findById(menuId).get();
+        menuSet = bill.getMenuItem();
+        menuSet.add(menu);
+        bill.setMenuItem(menuSet);
+        return billRepository.save(bill);
+
+
+    }
+
+//    @Override
+//    public List<Bill> findByBillId(Long billId) {
+//        return billRepository.findByBillId(billId);
+//    }
+
 
     /**
      * Search  bills infor
@@ -102,9 +125,9 @@ public class BillServiceImpl implements BillService {
      * @return
      */
     @Override
-    public List<BillDTO> searchBills(String query) {
-        List<BillDTO> billDTOS = billRepository.searchBills(query);
-        return billDTOS;
+    public List<Bill> searchBills(String query) {
+        List<Bill> bills = billRepository.searchBills(query);
+        return bills;
     }
 
 }

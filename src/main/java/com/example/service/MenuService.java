@@ -1,7 +1,8 @@
 package com.example.service;
 
-import com.example.exception.ExceptionsMenuNotFound;
+import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.MenuDTO;
+import com.example.model.entity.Menu;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,19 +19,21 @@ public interface MenuService {
     List<MenuDTO> findAll();
 
     /**
+     * Find by id menus
+     *
+     * @param menuId
+     * @return
+     */
+    Optional<Menu> findById(Long menuId) throws ApplicationExceptionsNotFound;
+
+
+    /**
      * Delete by id menus
      *
      * @param id
      */
-    void deleteById(Long id) throws ExceptionsMenuNotFound;
+    void deleteById(Long id) throws ApplicationExceptionsNotFound;
 
-    /**
-     * Find by id menus
-     *
-     * @param id
-     * @return
-     */
-    Optional<MenuDTO> findById(Long id) throws ExceptionsMenuNotFound;
 
     /**
      * Save menus
@@ -38,15 +41,15 @@ public interface MenuService {
      * @param
      * @return
      */
-    MenuDTO save(MenuDTO menuDTO) throws ExceptionsMenuNotFound;
+    Menu save(Menu menu) throws ApplicationExceptionsNotFound;
 
     /**
      * Update menus
      *
-     * @param menuDTO
+     * @param
      * @return
      */
-    MenuDTO update(MenuDTO menuDTO) throws ExceptionsMenuNotFound;
+    Menu update(Menu menu) throws ApplicationExceptionsNotFound;
 
     /**
      * Search menus
@@ -54,7 +57,7 @@ public interface MenuService {
      * @param query
      * @return
      */
-    List<MenuDTO> searchMenus(String query);
+    List<Menu> searchMenus(String query);
 
 
 }
