@@ -9,18 +9,9 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @Setter
-public class BillDTO {
+public class BillDTOVersion2 {
     private Long billId;
     private int quantity;
     private LocalDateTime localDateTime;
     private float totalPrice;
-
-    public BillDTO(int quantity, float totalPrice) {
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-    }
-
-    public BillDTO() {
-        
-    }
 }

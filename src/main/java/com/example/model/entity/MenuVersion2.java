@@ -12,8 +12,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "menumanagement")
-public class Menu {
+//@Table(name = "menumanagement")
+public class MenuVersion2 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,12 +21,12 @@ public class Menu {
     @Column(name = "name")
     @NotBlank(message = "Menu name cannot be blank")
     private String name;
-    @Column(name = "description")
-    @NotBlank(message = "description shouldn't be null")
-    private String description;
-    @Column(name = "image")
-    @NotBlank(message = "insert an image")
-    private String image;
+    //    @Column(name = "description")
+//    @NotBlank(message = "description shouldn't be null")
+//    private String description;
+//    @Column(name = "image")
+//    @NotBlank(message = "insert an image")
+//    private String image;
     @Column(name = "price")
     @NotBlank(message = "price shouldn't be null")
     private int price;
@@ -37,6 +37,5 @@ public class Menu {
     @JsonIgnore
     @ManyToMany(mappedBy = "menuItem", cascade = CascadeType.ALL)
     private Set<Bill> billSet = new HashSet<>();
-    
 
 }

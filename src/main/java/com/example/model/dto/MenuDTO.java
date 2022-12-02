@@ -14,5 +14,16 @@ public class MenuDTO {
     private String image;
     private int price;
     private String note;
-    
+
+    public MenuDTO(String name, String description, String image, int price, String note) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.price = price;
+        this.note = note;
+    }
+
+    public MenuDTO() {
+        
+    }
 }

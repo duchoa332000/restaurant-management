@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    List<Menu> findByName(String name);
+//    List<Menu> findByName(String name);
 
     @Query("SELECT m FROM Menu m WHERE " +
             "m.name LIKE CONCAT('%',:query,'%')" +

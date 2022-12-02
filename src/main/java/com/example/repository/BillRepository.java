@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Long> {
-    List<Bill> findByBillId(Long billId);
+//    List<Bill> findByBillId(Long billId);
 
     @Query("SELECT b FROM Bill b WHERE " +
             "b.quantity LIKE CONCAT('%',:query,'%')")

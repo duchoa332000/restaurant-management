@@ -2,22 +2,25 @@ package com.example.controller;
 
 import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.BillDTO;
+import com.example.model.dto.BillDTOVersion2;
 import com.example.model.entity.Bill;
 import com.example.service.BillService;
 import com.example.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class is to handle Bill Controller
  */
 @RestController
-@RequestMapping("api.com/bills")
+@RequestMapping("bill-management.com")
 public class BillController {
     @Autowired
     private BillService billService;
@@ -26,10 +29,26 @@ public class BillController {
     private MenuService menuService;
 
 
-    @GetMapping
+    /**
+     * Find all Bill version 1
+     *
+     * @return
+     */
+    @GetMapping("v1/bills")
     public List<BillDTO> findAll() {
         return billService.findAll();
     }
+
+    /**
+     * Find all Bill version 2
+     *
+     * @return
+     */
+    @GetMapping("v2/bills")
+    public List<BillDTOVersion2> findAllV2() {
+        return billService.findAllV2();
+    }
+
 
     /**
      * Find by Bill id
@@ -68,7 +87,20 @@ public class BillController {
     }
 
     /**
-     * Update a bills
+     * Update bills
+     *
+     * @param bill
+     * @return
+     * @throws ApplicationExceptionsNotFound
+     */
+    @PutMapping
+    public ResponseEntity<Bill> update(@RequestBody Bill bill) throws ApplicationExceptionsNotFound {
+        Bill bills = billService.update(bill);
+        return ResponseEntity.ok(bills);
+    }
+
+    /**
+     * Assign menu to bill
      *
      * @param
      * @return
@@ -80,13 +112,6 @@ public class BillController {
             @PathVariable Long menuId) {
         return billService.assignMenuToBill(billId, menuId);
     }
-
-//    @PutMapping
-//    public ResponseEntity<Bill> update(@RequestBody Bill bill) throws ApplicationExceptionsNotFound {
-//        Bill bills = billService.update(bill);
-//        return ResponseEntity.ok(bills);
-//    }
-
 
     /**
      * Search bills
@@ -104,14 +129,14 @@ public class BillController {
      *
      * @return
      */
-//    @GetMapping("/billdto")
-//    public ResponseEntity<List<BillDTO>> billDTOS() {
-//        List<BillDTO> billDTOS = new ArrayList<>();
-//        billDTOS.add(new BillDTO("Sting", 2, null, "20-10-2022"));
-//        billDTOS.add(new BillDTO("7 Up", 1, null, "20-10-2022"));
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Reponsed", "BillController");
-//        return ResponseEntity.accepted().headers(headers).body(billDTOS);
-//
-//    }
+    @GetMapping("/billdto")
+    public ResponseEntity<List<BillDTO>> billDTOS() {
+        List<BillDTO> billDTOS = new ArrayList<>();
+        billDTOS.add(new BillDTO(2, 35000));
+        billDTOS.add(new BillDTO(3, 15000));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Reponsed", "BillController");
+        return ResponseEntity.accepted().headers(headers).body(billDTOS);
+
+    }
 }

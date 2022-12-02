@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.MenuDTO;
+import com.example.model.dto.MenuDTOVersion2;
 import com.example.model.entity.Menu;
 
 import java.util.List;
@@ -17,6 +18,13 @@ public interface MenuService {
      * @return
      */
     List<MenuDTO> findAll();
+
+    /**
+     * Find all menus in version 2
+     *
+     * @return
+     */
+    List<MenuDTOVersion2> findAllV2();
 
     /**
      * Find by id menus

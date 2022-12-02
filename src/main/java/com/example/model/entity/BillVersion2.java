@@ -12,8 +12,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "billmanagement")
-public class Bill {
+//@Table(name = "billmanagement")
+public class BillVersion2 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -3,6 +3,7 @@ package com.example.service.impl;
 
 import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.MenuDTO;
+import com.example.model.dto.MenuDTOVersion2;
 import com.example.model.entity.Menu;
 import com.example.model.mapper.MenuMapper;
 import com.example.repository.MenuRepository;
@@ -26,7 +27,7 @@ public class MenuServiceImpl implements MenuService {
     private MenuMapper menuMapper;
 
     /**
-     * Find all findAll
+     * Find all Menus
      *
      * @return
      */
@@ -34,6 +35,17 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuDTO> findAll() {
         List<Menu> menu = menuRepository.findAll();
         return menuMapper.entityToDTO(menu);
+    }
+
+    /**
+     * Find All Menu Version 2
+     *
+     * @return
+     */
+    @Override
+    public List<MenuDTOVersion2> findAllV2() {
+        List<Menu> menuVersion2 = menuRepository.findAll();
+        return menuMapper.entityToDTOVersion2(menuVersion2);
     }
 
     /**

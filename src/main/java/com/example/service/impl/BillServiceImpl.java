@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.exception.ApplicationExceptionsNotFound;
 import com.example.model.dto.BillDTO;
+import com.example.model.dto.BillDTOVersion2;
 import com.example.model.entity.Bill;
 import com.example.model.entity.Menu;
 import com.example.model.mapper.BillMapper;
@@ -37,6 +38,12 @@ public class BillServiceImpl implements BillService {
         return billMapper.entityToDTO(bill);
     }
 
+    @Override
+    public List<BillDTOVersion2> findAllV2() {
+        List<Bill> billVersion2 = billRepository.findAll();
+        return billMapper.entityToDTOVersion2(billVersion2);
+    }
+
     /**
      * This class is to handle business findById
      *
@@ -51,7 +58,6 @@ public class BillServiceImpl implements BillService {
         }
         return findById.get();
     }
-
 
     /**
      * This class is to handle business Save
@@ -95,11 +101,19 @@ public class BillServiceImpl implements BillService {
         for (Bill updateBill : bills) {
             if (updateBill.getBillId() == bill.getBillId()) {
                 updateBill.setQuantity(bill.getQuantity());
+                updateBill.setTotalPrice(bill.getTotalPrice());
             }
         }
         return billRepository.save(bill);
     }
 
+    /**
+     * Assign Menu to Bill
+     *
+     * @param billId
+     * @param menuId
+     * @return
+     */
     public Bill assignMenuToBill(Long billId, Long menuId) {
         Set<Menu> menuSet = null;
         Bill bill = billRepository.findById(billId).get();
@@ -108,15 +122,7 @@ public class BillServiceImpl implements BillService {
         menuSet.add(menu);
         bill.setMenuItem(menuSet);
         return billRepository.save(bill);
-
-
     }
-
-//    @Override
-//    public List<Bill> findByBillId(Long billId) {
-//        return billRepository.findByBillId(billId);
-//    }
-
 
     /**
      * Search  bills infor
