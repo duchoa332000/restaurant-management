@@ -21,7 +21,7 @@ import java.util.Optional;
  * This class is to handle Menu Controller
  */
 @RestController
-@RequestMapping("menu-management.com")
+@RequestMapping("menumanagement.com")
 public class MenuController {
 
     @Autowired

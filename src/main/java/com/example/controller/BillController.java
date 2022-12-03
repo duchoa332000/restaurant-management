@@ -20,7 +20,7 @@ import java.util.List;
  * This class is to handle Bill Controller
  */
 @RestController
-@RequestMapping("bill-management.com")
+@RequestMapping("billmanagement.com")
 public class BillController {
     @Autowired
     private BillService billService;
