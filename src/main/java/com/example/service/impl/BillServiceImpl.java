@@ -67,23 +67,8 @@ public class BillServiceImpl implements BillService {
      */
     @Override
     public Bill save(Bill bill) {
-//        calculatesTotalPrice(bill.getMenuItem());
         return billRepository.save(bill);
     }
-
-//    public float calculatesTotalPrice(List<Menu> menuList) {
-//        float totalPrice = 0f;
-//        float singlerCart = 0f;
-//        for (Menu menu : menuList) {
-////            long billId = billRepository.getMenuId();
-////            Optional<Bill> bill = billRepository.findById(billId);
-//            singlerCart = menu.getPrice();
-//            totalPrice = totalPrice + menu.getPrice();
-//
-//        }
-//        return totalPrice;
-//    }
-
 
     /**
      * This class is to handle business DeleteId

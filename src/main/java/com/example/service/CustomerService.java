@@ -10,5 +10,10 @@ public interface CustomerService {
 
     Customer save(Customer customer) throws ApplicationExceptionsNotFound;
 
+    /**
+     * Find all Customer
+     *
+     * @return
+     */
     List<CustomerDTO> findAll();
 }
