@@ -2,6 +2,7 @@ package com.example.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,17 +14,22 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "billmanagement")
+@NoArgsConstructor
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long billId;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Customer> customer = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "bill_menuitem",
             joinColumns = @JoinColumn(name = "bill_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_id"))
     private Set<Menu> menuItem = new HashSet<>();
+
 
     @Column(name = "quantity")
     private int quantity;
@@ -34,6 +40,5 @@ public class Bill {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "local_datetime")
     private LocalDateTime localDateTime = LocalDateTime.now();
-
 
 }

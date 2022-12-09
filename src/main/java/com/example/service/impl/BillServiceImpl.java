@@ -67,8 +67,23 @@ public class BillServiceImpl implements BillService {
      */
     @Override
     public Bill save(Bill bill) {
+//        calculatesTotalPrice(bill.getMenuItem());
         return billRepository.save(bill);
     }
+
+//    public float calculatesTotalPrice(List<Menu> menuList) {
+//        float totalPrice = 0f;
+//        float singlerCart = 0f;
+//        for (Menu menu : menuList) {
+////            long billId = billRepository.getMenuId();
+////            Optional<Bill> bill = billRepository.findById(billId);
+//            singlerCart = menu.getPrice();
+//            totalPrice = totalPrice + menu.getPrice();
+//
+//        }
+//        return totalPrice;
+//    }
+
 
     /**
      * This class is to handle business DeleteId
@@ -76,6 +91,7 @@ public class BillServiceImpl implements BillService {
      * @param billId
      */
     @Override
+
     public void deleteById(Long billId) throws ApplicationExceptionsNotFound {
         Optional<Bill> findById = billRepository.findById(billId);
         Bill bill = findById
@@ -102,7 +118,9 @@ public class BillServiceImpl implements BillService {
             if (updateBill.getBillId() == bill.getBillId()) {
                 updateBill.setQuantity(bill.getQuantity());
                 updateBill.setTotalPrice(bill.getTotalPrice());
+
             }
+
         }
         return billRepository.save(bill);
     }
@@ -135,5 +153,6 @@ public class BillServiceImpl implements BillService {
         List<Bill> bills = billRepository.searchBills(query);
         return bills;
     }
+
 
 }

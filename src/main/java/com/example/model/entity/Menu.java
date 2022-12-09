@@ -34,9 +34,10 @@ public class Menu {
     @NotBlank(message = "note shouldn't be null")
     private String note;
 
+
     @JsonIgnore
     @ManyToMany(mappedBy = "menuItem", cascade = CascadeType.ALL)
     private Set<Bill> billSet = new HashSet<>();
-    
+
 
 }

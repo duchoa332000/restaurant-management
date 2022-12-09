@@ -27,7 +27,7 @@ public class BillController {
 
     @Autowired
     private MenuService menuService;
-
+    
 
     /**
      * Find all Bill version 1
@@ -71,6 +71,7 @@ public class BillController {
     @PostMapping
     public ResponseEntity<Bill> add(@Valid @RequestBody Bill bill) throws ApplicationExceptionsNotFound {
         Bill saveBills = billService.save(bill);
+//        float total = billServiceImpl.calculatesTotalPrice();
         return ResponseEntity.status(HttpStatus.CREATED).body(saveBills);
     }
 

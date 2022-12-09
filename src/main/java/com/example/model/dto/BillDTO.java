@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public class BillDTO {
     private Long billId;
+    //    private List<Menu> menuItem;
     private int quantity;
     private LocalDateTime localDateTime;
     private float totalPrice;
@@ -21,6 +22,6 @@ public class BillDTO {
     }
 
     public BillDTO() {
-        
+
     }
 }
